@@ -22,7 +22,10 @@ jobs:
     - name: Restore Dependencies
       run: dotnet restore "MinimalAPI/MinimalAPI.csproj"
 
-    - name: Publish Application
+    - name: Build All Projects
+      run: dotnet build "MinimalAPI/MinimalAPI.csproj" --configuration Release
+
+    - name: Publish MinimalAPI
       run: dotnet publish "MinimalAPI/MinimalAPI.csproj" --configuration Release --output ./publish
 
     - name: Create ZIP File

@@ -17,11 +17,11 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    - name: Build Solution
-      run: dotnet build --configuration Release
+    - name: Build Project
+      run: dotnet build <YourProjectFile>.csproj --configuration Release
 
-    - name: Publish Artifacts
-      run: dotnet publish -c Release -o ./publish
+    - name: Publish Project
+      run: dotnet publish <YourProjectFile>.csproj --configuration Release --output ./publish
 
     - name: Azure Login
       uses: azure/login@v2
@@ -32,6 +32,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: quetstroey-webapp-development
-        slot-name: staging
-        publish-profile: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
         package: ./publish

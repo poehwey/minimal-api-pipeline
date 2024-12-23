@@ -5,45 +5,33 @@ on:
     branches:
       - staging
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-22.04
-
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: '7.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build project
+    - name: Build Solution
       run: dotnet build --configuration Release
 
-    - name: Publish application
-      run: dotnet publish -o ./publish --configuration Release
+    - name: Publish Artifacts
+      run: dotnet publish -c Release -o ./publish
 
-    - name: Login to Azure
-      uses: azure/login@v1
+    - name: Azure Login
+      uses: azure/login@v2
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        auth-type: oidc
+        creds: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
 
-    - name: Deploy to Azure
-      run: az webapp deploy --name ${{ secrets.AZURE_APP_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --src-path ./publish
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
       with:
-        name: minimalapi
-        path: ./publish
+        app-name: quetstroey-webapp-development
+        slot-name: staging
+        publish-profile: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
+        package: ./publish

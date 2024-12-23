@@ -79,4 +79,6 @@ studentGroup.MapDelete("{id:int}", (IStudentRepository studentRepo, int id) =>
             : Results.NotFound($"No student with id {id} found");
 });
 
+// some random comment
+
 app.Run();

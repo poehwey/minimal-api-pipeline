@@ -18,10 +18,10 @@ jobs:
         dotnet-version: '7.0.x'
 
     - name: Build Project
-      run: dotnet build <YourProjectFile>.csproj --configuration Release
+      run: dotnet build "MinimalAPI/MinimalAPI.csproj" --configuration Release
 
     - name: Publish Project
-      run: dotnet publish <YourProjectFile>.csproj --configuration Release --output ./publish
+      run: dotnet publish "MinimalAPI/MinimalAPI.csproj" --configuration Release --output ./publish
 
     - name: Azure Login
       uses: azure/login@v2

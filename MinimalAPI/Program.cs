@@ -1,7 +1,7 @@
 const string commonPrefix = "/api";
 
 var builder = WebApplication.CreateBuilder(args);
-
+// another useless comment
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
